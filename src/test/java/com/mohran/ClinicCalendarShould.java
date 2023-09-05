@@ -1,6 +1,6 @@
 package com.mohran;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,9 +8,22 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import  java.util.*;
 class ClinicCalendarShould {
+
+    private ClinicCalendar calendar;
+    @BeforeAll
+    static void testClassSetup()
+    {
+        System.out.println("Before all.....");
+    }
+    @BeforeEach
+    void inti()
+    {
+        System.out.println("Before each.....");
+        calendar = new ClinicCalendar(LocalDate.of(2023,9,5));
+    }
     @Test
     public void allowEntryOfAnAppointment(){
-        ClinicCalendar calendar = new ClinicCalendar(LocalDate.now());
+        System.out.println("entry of appointment");
         calendar.addAppointment("ahmed","mohran","ashraf","09/01/2023 2:00 pm");
         List <PatientAppointment> appointmentList = calendar.getAppointments();
         assertNotNull(appointmentList);
@@ -25,7 +38,7 @@ class ClinicCalendarShould {
     @Test
     void returnTrueForHasAppointmentIfThereAreAppointment()
     {
-        ClinicCalendar calendar = new ClinicCalendar(LocalDate.now());
+        System.out.println("has appointment");
         calendar.addAppointment("mohamed","mohran","ashraf",
                 "09/16/2023 2:00 pm");
         assertTrue(calendar.hasAppointment(LocalDate.of(2023,9,16)));
@@ -33,21 +46,29 @@ class ClinicCalendarShould {
     @Test
     void returnFalseForHasAppointmentsIfThereAreNoAppointments()
     {
-        ClinicCalendar calendar = new ClinicCalendar(LocalDate.now());
-        assertFalse(calendar.hasAppointment(LocalDate.of(2023,9,4)));
+        System.out.println("no appointment");
+        assertFalse(calendar.hasAppointment(LocalDate.of(2023,9,5)));
     }
 
     @Test
     void returnCurrentDaysAppointments()
     {
-        ClinicCalendar calendar = new ClinicCalendar(LocalDate.now());
+        System.out.println("current day appointment");
         calendar.addAppointment("mohamed","mohran","essam",
-                "9/4/2023 2:00 pm");
+                "9/5/2023 2:00 pm");
         calendar.addAppointment("ahmed","mohran","ashraf",
-                "9/4/2023 3:00 pm");
-//        calendar.addAppointment("ali","mohran","ali",
-//                "9/16/2023 2:00 pm");
+                "9/5/2023 3:00 pm");
+        calendar.addAppointment("ali","mohran","ali",
+                "9/16/2023 2:00 pm");
         assertEquals(2,calendar.getTodayAppointments().size());
-        assertIterableEquals(calendar.getTodayAppointments(),calendar.getAppointments());
+    }
+    @AfterEach
+    void tearDownEachTest()
+    {
+        System.out.println("After each.....");
+    }
+    @AfterAll
+    static void finalTest(){
+        System.out.println("After all.....");
     }
 }

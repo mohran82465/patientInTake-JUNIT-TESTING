@@ -32,7 +32,7 @@ public class ClinicCalendar {
                 LocalTime time = LocalTime.parse(parts[1].toUpperCase(),
                         DateTimeFormatter.ofPattern("h:mm a", Locale.US));
                 localDateTime = LocalDateTime.of(today, time);
-            }
+            } 
             else {
                 localDateTime = LocalDateTime.parse(dateTime.toUpperCase(),
                         DateTimeFormatter.ofPattern("M/d/yyyy h:mm a", Locale.US));
