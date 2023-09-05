@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import  java.util.*;
+
 class ClinicCalendarShould {
 
     private ClinicCalendar calendar;
@@ -22,6 +23,7 @@ class ClinicCalendarShould {
         calendar = new ClinicCalendar(LocalDate.of(2023,9,5));
     }
     @Test
+    @Tag("dateTime")
     public void allowEntryOfAnAppointment(){
         System.out.println("entry of appointment");
         calendar.addAppointment("ahmed","mohran","ashraf","09/01/2023 2:00 pm");
@@ -29,11 +31,12 @@ class ClinicCalendarShould {
         assertNotNull(appointmentList);
         assertEquals(1,appointmentList.size());
         PatientAppointment appointment = appointmentList.get(0);
-        assertEquals("ahmed",appointment.getPatientFirstName());
-        assertSame(Doctor.ashraf,appointment.getDoctor());
-        assertEquals("09/01/2023 02:00 PM",appointment.getAppointmentDateTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a")));
-        assertEquals("mohran",appointment.getPatientLastName());
-
+        assertAll(
+                ()->assertEquals("ahmed",appointment.getPatientFirstName()),
+                ()->assertEquals(Doctor.ashraf,appointment.getDoctor()),
+                ()->assertEquals("09/01/2023 02:00 PM",appointment.getAppointmentDateTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a"))),
+                ()->assertEquals("mohran",appointment.getPatientLastName())
+        );
     }
     @Test
     void returnTrueForHasAppointmentIfThereAreAppointment()
